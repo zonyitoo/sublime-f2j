@@ -1,0 +1,70 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: F2J
+scopeName: source.f2j
+fileTypes: ["sf"]
+uuid: 571d3901-a922-4ea8-a839-4da85c1b28d0
+
+patterns:
+    - comment: Comments
+      name: comment.line.f2j
+      match: "[ \t]*--.*"
+    - comment: Control keywords
+      name: keyword.control.f2j
+      match: \b(let|rec|and|type|module|end|then|else|if|in|case)\b
+    - comment: Seperator
+      name: keyword.other.f2j
+      match: ;
+    - comment: Strings
+      name: string.quoted.double.f2j
+      begin: \"
+      beginCaptures:
+        '0': { name: punctuation.definition.string.begin.c }
+      end: \"
+      endCaptures:
+        '0': { name: punctuation.definition.string.end.c }
+      patterns:
+        - include: \#string_escaped_char
+        - include: \#string_placeholder
+        - match: .
+    - comment: Storage Type
+      name: storage.type.f2j
+      match: \b(Int|String|List|Unit)\b
+    - comment: Numeric
+      name: constant.numeric.f2j
+      match: \b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b
+    - comment: Parens
+      name: meta.parens.f2j
+      begin: \(
+      end: \)
+      patterns:
+        - include: $base
+    - comment: Function Definition
+      name: meta.function.f2j
+      begin: \b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_']*)\b|([a-z_][a-zA-Z0-9_']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))
+      beginCaptures:
+        '1': { name: keyword.other.function-definition.f2j }
+        '3': { name: keyword.other.funtion-definition.f2j }
+        '4': { name: entity.name.function.f2j }
+        '5': { name: entity.name.function.f2j }
+      end: (?:(:)\s*([^=]+))?(?:(=)|(=)\s*(?=fun(?:ction)\b))
+      endCaptures:
+        '1': { name: punctuation.separator.function.type-constraint.f2j }
+        '2': { name: storage.type.f2j }
+        '3': { name: keyword.operator.f2j }
+        '4': { name: keyword.operator.f2j }
+      patterns:
+        - include: \#variables
+    # - comment: Let definition
+    #   begin: \b(let|and)\b
+    #   end: \=
+    #   match:
+    - comment: Type definition
+      begin: \b(type)\s+([_A-Za-z][_A-Za-z0-9]*\b)+
+      beginCaptures:
+        '1': { name: entity.name.type.f2j }
+      end: "="
+      # match:
+      # captures:
+      #   '1': { name: entity.name.type.f2j }
+...
