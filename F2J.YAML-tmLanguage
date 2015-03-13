@@ -20,7 +20,7 @@ patterns:
       match: (;|=[^=]|->)
     - comment: Operators
       name: keyword.operator.f2j
-      match: ((\+|-[^>]|\*|/|~|^)|(==|<=?|[^-]>=?|!=?|&&?|\|\|?))
+      match: ((\+|-[^>]|\*|/|~|^)|(==|[a-zA-Z0-9_ ]<=?|[a-zA-Z0-9_ ]>=?|!=?|&&?|\|\|?))
     - comment: Strings
       name: string.quoted.double.f2j
       begin: '"'

@@ -46,7 +46,7 @@
 			<key>comment</key>
 			<string>Operators</string>
 			<key>match</key>
-			<string>((\+|-[^&gt;]|\*|/|~|^)|(==|&lt;=?|[^-]&gt;=?|!=?|&amp;&amp;?|\|\|?))</string>
+			<string>((\+|-[^&gt;]|\*|/|~|^)|(==|[a-zA-Z0-9_ ]&lt;=?|[a-zA-Z0-9_ ]&gt;=?|!=?|&amp;&amp;?|\|\|?))</string>
 			<key>name</key>
 			<string>keyword.operator.f2j</string>
 		</dict>
