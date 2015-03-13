@@ -8,28 +8,52 @@ uuid: 571d3901-a922-4ea8-a839-4da85c1b28d0
 patterns:
     - comment: Comments
       name: comment.line.f2j
-      match: "[ \t]*--.*"
+      match: "(--).*$\\n?"
     - comment: Control keywords
       name: keyword.control.f2j
-      match: \b(let|rec|and|type|module|end|then|else|if|in|case)\b
+      match: \b(let|rec|and|type|module|end|then|else|if|in|case|data|of)\b
+    - comment: Constants
+      name: constant.language.f2j
+      match: \b(True|False)\b
     - comment: Seperator
       name: keyword.other.f2j
-      match: ;
+      match: (;|=[^=]|->)
+    - comment: Operators
+      name: keyword.operator.f2j
+      match: ((\+|-[^>]|\*|/|~|^)|(==|<=?|[^-]>=?|!=?|&&?|\|\|?))
     - comment: Strings
       name: string.quoted.double.f2j
-      begin: \"
+      begin: '"'
       beginCaptures:
         '0': { name: punctuation.definition.string.begin.c }
-      end: \"
+      end: '"'
       endCaptures:
         '0': { name: punctuation.definition.string.end.c }
       patterns:
-        - include: \#string_escaped_char
-        - include: \#string_placeholder
-        - match: .
+        - match: \\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&])
+          name: constant.character.escape.f2j
+        - match: \\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+
+          name: constant.character.escape.octal.f2j
+        - match: \^[A-Z@\[\]\\\^_]
+          name: constant.character.escape.control.f2j
+    - comment: Char
+      name: string.quoted.single.f2j
+      begin: "'"
+      beginCaptures:
+        '0': { name: punctuation.definition.begin.f2j }
+      end: "'"
+      endCaptures:
+        '0': { name: punctuation.definition.end.f2j }
+      patterns:
+        - match: \\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&])
+          name: constant.character.escape.f2j
+        - match: \\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+
+          name: constant.character.escape.octal.f2j
+        - match: \^[A-Z@\[\]\\\^_]
+          name: constant.character.escape.control.f2j
     - comment: Storage Type
       name: storage.type.f2j
-      match: \b(Int|String|List|Unit)\b
+      match: \b(Int|String|Bool|Char|Float|Double|Unit)\b
     - comment: Numeric
       name: constant.numeric.f2j
       match: \b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b
@@ -54,7 +78,7 @@ patterns:
         '3': { name: keyword.operator.f2j }
         '4': { name: keyword.operator.f2j }
       patterns:
-        - include: \#variables
+        - include: "#variables"
     # - comment: Let definition
     #   begin: \b(let|and)\b
     #   end: \=
@@ -67,4 +91,8 @@ patterns:
       # match:
       # captures:
       #   '1': { name: entity.name.type.f2j }
+    - comment: Variable
+      patterns:
+        - match: \(\)
+        - name: variable.parameter.unit.f2j
 ...

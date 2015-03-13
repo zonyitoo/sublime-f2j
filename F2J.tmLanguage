@@ -14,7 +14,7 @@
 			<key>comment</key>
 			<string>Comments</string>
 			<key>match</key>
-			<string>[ 	]*--.*</string>
+			<string>(--).*$\n?</string>
 			<key>name</key>
 			<string>comment.line.f2j</string>
 		</dict>
@@ -22,21 +22,37 @@
 			<key>comment</key>
 			<string>Control keywords</string>
 			<key>match</key>
-			<string>\b(let|rec|and|type|module|end|then|else|if|in|case)\b</string>
+			<string>\b(let|rec|and|type|module|end|then|else|if|in|case|data|of)\b</string>
 			<key>name</key>
 			<string>keyword.control.f2j</string>
 		</dict>
 		<dict>
 			<key>comment</key>
+			<string>Constants</string>
+			<key>match</key>
+			<string>\b(True|False)\b</string>
+			<key>name</key>
+			<string>constant.language.f2j</string>
+		</dict>
+		<dict>
+			<key>comment</key>
 			<string>Seperator</string>
 			<key>match</key>
-			<string>;</string>
+			<string>(;|=[^=]|-&gt;)</string>
 			<key>name</key>
 			<string>keyword.other.f2j</string>
 		</dict>
 		<dict>
+			<key>comment</key>
+			<string>Operators</string>
+			<key>match</key>
+			<string>((\+|-[^&gt;]|\*|/|~|^)|(==|&lt;=?|[^-]&gt;=?|!=?|&amp;&amp;?|\|\|?))</string>
+			<key>name</key>
+			<string>keyword.operator.f2j</string>
+		</dict>
+		<dict>
 			<key>begin</key>
-			<string>\"</string>
+			<string>"</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>0</key>
@@ -48,7 +64,7 @@
 			<key>comment</key>
 			<string>Strings</string>
 			<key>end</key>
-			<string>\"</string>
+			<string>"</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
@@ -62,16 +78,69 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>\#string_escaped_char</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>\#string_placeholder</string>
+					<key>match</key>
+					<string>\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&amp;])</string>
+					<key>name</key>
+					<string>constant.character.escape.f2j</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>.</string>
+					<string>\\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+</string>
+					<key>name</key>
+					<string>constant.character.escape.octal.f2j</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\^[A-Z@\[\]\\\^_]</string>
+					<key>name</key>
+					<string>constant.character.escape.control.f2j</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>'</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.begin.f2j</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Char</string>
+			<key>end</key>
+			<string>'</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.end.f2j</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>string.quoted.single.f2j</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&amp;])</string>
+					<key>name</key>
+					<string>constant.character.escape.f2j</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+</string>
+					<key>name</key>
+					<string>constant.character.escape.octal.f2j</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\^[A-Z@\[\]\\\^_]</string>
+					<key>name</key>
+					<string>constant.character.escape.control.f2j</string>
 				</dict>
 			</array>
 		</dict>
@@ -79,7 +148,7 @@
 			<key>comment</key>
 			<string>Storage Type</string>
 			<key>match</key>
-			<string>\b(Int|String|List|Unit)\b</string>
+			<string>\b(Int|String|Bool|Char|Float|Double|Unit)\b</string>
 			<key>name</key>
 			<string>storage.type.f2j</string>
 		</dict>
@@ -167,7 +236,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>\#variables</string>
+					<string>#variables</string>
 				</dict>
 			</array>
 		</dict>
@@ -186,6 +255,21 @@
 			<string>Type definition</string>
 			<key>end</key>
 			<string>=</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Variable</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\(\)</string>
+				</dict>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.unit.f2j</string>
+				</dict>
+			</array>
 		</dict>
 	</array>
 	<key>scopeName</key>
