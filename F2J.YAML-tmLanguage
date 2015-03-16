@@ -11,7 +11,7 @@ patterns:
       match: "(--).*$\\n?"
     - comment: Control keywords
       name: keyword.control.f2j
-      match: \b(let|rec|and|type|module|end|then|else|if|in|case|data|of)\b
+      match: \b(let|rec|and|type|module|end|then|else|if|in|case|data|of|new)\b
     - comment: Constants
       name: constant.language.f2j
       match: \b(True|False)\b

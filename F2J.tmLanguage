@@ -22,7 +22,7 @@
 			<key>comment</key>
 			<string>Control keywords</string>
 			<key>match</key>
-			<string>\b(let|rec|and|type|module|end|then|else|if|in|case|data|of)\b</string>
+			<string>\b(let|rec|and|type|module|end|then|else|if|in|case|data|of|new)\b</string>
 			<key>name</key>
 			<string>keyword.control.f2j</string>
 		</dict>
