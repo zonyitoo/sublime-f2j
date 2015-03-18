@@ -20,7 +20,7 @@ patterns:
       match: (;|=[^=]|->|:)
     - comment: Operators
       name: keyword.operator.f2j
-      match: ((\+|-|\*|/|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\)+=*|==)
+      match: (((\+|-|\*|/|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\)(\+|-|\*|/|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)*)|==)
     - comment: Infix operator
       name: keyword.operator.function.infix.f2j
       match: (`.+?`)
