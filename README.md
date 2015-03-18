@@ -6,6 +6,10 @@ F2J plugin for Sublime Text
 
 * Syntax highlighting
 
+* Commenting
+
+* Some code snippets
+
 ## Installation
 
-Copy the `F2J.tmLanguage` to `Packages/User`.
+Copy folder `F2J` to `Packages`.

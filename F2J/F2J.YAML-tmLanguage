@@ -23,7 +23,7 @@ patterns:
       match: ((\+|-|\*|/|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\)+=*|==)
     - comment: Infix operator
       name: keyword.operator.function.infix.f2j
-      match: (`[a-zA-Z0-9_'\[\],]+?`)
+      match: (`.+?`)
     - comment: Strings
       name: string.quoted.double.f2j
       begin: '"'

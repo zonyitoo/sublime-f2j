@@ -54,7 +54,7 @@
 			<key>comment</key>
 			<string>Infix operator</string>
 			<key>match</key>
-			<string>(`[a-zA-Z0-9_'\[\],]+?`)</string>
+			<string>(`.+?`)</string>
 			<key>name</key>
 			<string>keyword.operator.function.infix.f2j</string>
 		</dict>
