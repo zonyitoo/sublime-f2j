@@ -17,7 +17,7 @@ patterns:
       match: \b(True|False)\b
     - comment: Seperator
       name: keyword.other.f2j
-      match: (;|=[^=]|->|:|,|\[|\])
+      match: (;|=[^=]|->|:)
     - comment: Operators
       name: keyword.operator.f2j
       match: ((\+|-|\*|/|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\)+=*|==)
@@ -58,6 +58,12 @@ patterns:
     - comment: Numeric
       name: constant.numeric.f2j
       match: \b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b
+    - comment: Type parameter
+      name: entity.name.type.f2j
+      begin: \[
+      end: \]
+      patterns:
+        - include: $self
     # - comment: Parens
     #   name: meta.parens.f2j
     #   begin: \(
@@ -85,11 +91,9 @@ patterns:
     #   end: \=
     #   match:
     # - comment: Type definition
-    #   begin: \b(type)\s+([_A-Za-z][_A-Za-z0-9]*\b)+
-    #   beginCaptures:
-    #     '1': { name: entity.name.type.f2j }
+    #   begin: \b(type)
     #   end: "="
-      # match:
-      # captures:
-      #   '1': { name: entity.name.type.f2j }
+    #   patterns:
+    #     - match: ([a-zA-Z][a-zA-Z0-9_]*)\s*(\[[a-zA-Z][a-zA-Z0-9_]*(\s*,\s*[a-zA-Z][a-zA-Z0-9_]*)\])
+    #     - name: entity.name.type.f2j
 ...
