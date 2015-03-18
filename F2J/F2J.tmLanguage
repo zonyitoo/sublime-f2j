@@ -38,7 +38,7 @@
 			<key>comment</key>
 			<string>Seperator</string>
 			<key>match</key>
-			<string>(;|=[^=]|-&gt;|:)</string>
+			<string>(;|(=|\|)[^\+\-\*/~\^&lt;&gt;\|\&amp;\$!#%\.\?@\\=]|-&gt;|:)</string>
 			<key>name</key>
 			<string>keyword.other.f2j</string>
 		</dict>
@@ -46,7 +46,7 @@
 			<key>comment</key>
 			<string>Operators</string>
 			<key>match</key>
-			<string>(((\+|-|\*|/|~|\^|&lt;|&gt;|\||&amp;|\$|!|#|%|\.|/|\?|@|\\)(\+|-|\*|/|~|\^|&lt;|&gt;|\||&amp;|\$|!|#|%|\.|/|\?|@|\\|=)*)|==)</string>
+			<string>((\+|-|\*|~|\^|&lt;|&gt;|\||&amp;|\$|!|#|%|\.|/|\?|@|\\|=)+)</string>
 			<key>name</key>
 			<string>keyword.operator.f2j</string>
 		</dict>
