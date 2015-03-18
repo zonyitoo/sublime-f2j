@@ -38,7 +38,7 @@
 			<key>comment</key>
 			<string>Seperator</string>
 			<key>match</key>
-			<string>(;|=[^=]|-&gt;)</string>
+			<string>(;|=[^=]|-&gt;|:|,|\[|\])</string>
 			<key>name</key>
 			<string>keyword.other.f2j</string>
 		</dict>
@@ -46,9 +46,17 @@
 			<key>comment</key>
 			<string>Operators</string>
 			<key>match</key>
-			<string>((\+|-[^&gt;]|\*|/|~|^)|(==|[a-zA-Z0-9_ ]&lt;=?|[a-zA-Z0-9_ ]&gt;=?|!=?|&amp;&amp;?|\|\|?))</string>
+			<string>((\+|-|\*|/|~|\^|&lt;|&gt;|\||&amp;|\$|!|#|%|\.|/|\?|@|\\)+=*|==)</string>
 			<key>name</key>
 			<string>keyword.operator.f2j</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Infix operator</string>
+			<key>match</key>
+			<string>(`[a-zA-Z0-9_'\[\],]+?`)</string>
+			<key>name</key>
+			<string>keyword.operator.function.infix.f2j</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -79,70 +87,75 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&amp;])</string>
+					<string>\\[btnfr\"'\\]</string>
 					<key>name</key>
 					<string>constant.character.escape.f2j</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+</string>
+					<string>(\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})</string>
 					<key>name</key>
-					<string>constant.character.escape.octal.f2j</string>
+					<string>constant.character.escape.unicode.f2j</string>
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\^[A-Z@\[\]\\\^_]</string>
+					<string>\\x[0-9A-Fa-f]{2}</string>
 					<key>name</key>
-					<string>constant.character.escape.control.f2j</string>
+					<string>constant.character.escape.numeric.f2j</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>([0123]?[0-7]{1,2})</string>
+					<key>name</key>
+					<string>constant.character.escape.octal.f2j</string>
 				</dict>
 			</array>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>'</string>
-			<key>beginCaptures</key>
+			<key>captures</key>
 			<dict>
-				<key>0</key>
+				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.begin.f2j</string>
+					<string>punctuation.definition.string.begin.c</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.escape.f2j</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.escape.unicode.f2j</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.escape.unicode.f2j</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.escape.numeric.f2j</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>constant.character.escape.octal.f2j</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.end.c</string>
 				</dict>
 			</dict>
 			<key>comment</key>
 			<string>Char</string>
-			<key>end</key>
-			<string>'</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>0</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.end.f2j</string>
-				</dict>
-			</dict>
+			<key>match</key>
+			<string>(')(\\[btnfr"'\\]|\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8}|\\x[0-9A-Fa-f]{2}|[0123]?[0-7]{1,2}|.)(')</string>
 			<key>name</key>
 			<string>string.quoted.single.f2j</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"'\&amp;])</string>
-					<key>name</key>
-					<string>constant.character.escape.f2j</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+</string>
-					<key>name</key>
-					<string>constant.character.escape.octal.f2j</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\^[A-Z@\[\]\\\^_]</string>
-					<key>name</key>
-					<string>constant.character.escape.control.f2j</string>
-				</dict>
-			</array>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -159,117 +172,6 @@
 			<string>\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b</string>
 			<key>name</key>
 			<string>constant.numeric.f2j</string>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>\(</string>
-			<key>comment</key>
-			<string>Parens</string>
-			<key>end</key>
-			<string>\)</string>
-			<key>name</key>
-			<string>meta.parens.f2j</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>$base</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>\b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_']*)\b|([a-z_][a-zA-Z0-9_']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.function-definition.f2j</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.funtion-definition.f2j</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.f2j</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.f2j</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Function Definition</string>
-			<key>end</key>
-			<string>(?:(:)\s*([^=]+))?(?:(=)|(=)\s*(?=fun(?:ction)\b))</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.separator.function.type-constraint.f2j</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.f2j</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.operator.f2j</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.operator.f2j</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>meta.function.f2j</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#variables</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>\b(type)\s+([_A-Za-z][_A-Za-z0-9]*\b)+</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.type.f2j</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Type definition</string>
-			<key>end</key>
-			<string>=</string>
-		</dict>
-		<dict>
-			<key>comment</key>
-			<string>Variable</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>match</key>
-					<string>\(\)</string>
-				</dict>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.unit.f2j</string>
-				</dict>
-			</array>
 		</dict>
 	</array>
 	<key>scopeName</key>
