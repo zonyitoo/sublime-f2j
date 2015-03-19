@@ -19,10 +19,31 @@
 			<string>comment.line.f2j</string>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>{-</string>
+			<key>comment</key>
+			<string>Block comments</string>
+			<key>end</key>
+			<string>-}</string>
+			<key>name</key>
+			<string>comment.block.f2j</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>.</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>$self</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
 			<key>comment</key>
 			<string>Control keywords</string>
 			<key>match</key>
-			<string>\b(let|rec|and|type|module|end|then|else|if|in|case|data|of|new)\b</string>
+			<string>\b(let|rec|and|type|module|then|else|if|in|case|data|of|new|forall)\b</string>
 			<key>name</key>
 			<string>keyword.control.f2j</string>
 		</dict>

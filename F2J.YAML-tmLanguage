@@ -9,9 +9,16 @@ patterns:
     - comment: Comments
       name: comment.line.f2j
       match: "(--).*$\\n?"
+    - comment: Block comments
+      name: comment.block.f2j
+      begin: "{-"
+      end: "-}"
+      patterns:
+        - match: .
+        - include: $self
     - comment: Control keywords
       name: keyword.control.f2j
-      match: \b(let|rec|and|type|module|end|then|else|if|in|case|data|of|new)\b
+      match: \b(let|rec|and|type|module|then|else|if|in|case|data|of|new|forall)\b
     - comment: Constants
       name: constant.language.f2j
       match: \b(True|False)\b
