@@ -59,9 +59,17 @@
 			<key>comment</key>
 			<string>Seperator</string>
 			<key>match</key>
-			<string>(;|(=|\|)[^\+\-\*/~\^&lt;&gt;\|\&amp;\$!#%\.\?@\\=]|-&gt;|:)</string>
+			<string>((=|\|)[^\+\-\*/~\^&lt;&gt;\|\&amp;\$!#%\.\?@\\=]|-&gt;|:)</string>
 			<key>name</key>
 			<string>keyword.other.f2j</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Terminator</string>
+			<key>match</key>
+			<string>(;)</string>
+			<key>name</key>
+			<string>punctuation.terminator.f2j</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -129,6 +137,50 @@
 					<string>([0123]?[0-7]{1,2})</string>
 					<key>name</key>
 					<string>constant.character.escape.octal.f2j</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>\\\{</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.section.embedded.begin.f2j</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>source.f2j</string>
+					<key>end</key>
+					<string>\}</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.section.embedded.end.f2j</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>source.f2j</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.embedded.line.f2j</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>$self</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>\{</string>
+							<key>end</key>
+							<string>\}</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>

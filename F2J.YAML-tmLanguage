@@ -24,7 +24,10 @@ patterns:
       match: \b(True|False)\b
     - comment: Seperator
       name: keyword.other.f2j
-      match: (;|(=|\|)[^\+\-\*/~\^<>\|\&\$!#%\.\?@\\=]|->|:)
+      match: ((=|\|)[^\+\-\*/~\^<>\|\&\$!#%\.\?@\\=]|->|:)
+    - comment: Terminator
+      name: punctuation.terminator.f2j
+      match: (;)
     - comment: Operators
       name: keyword.operator.f2j
       match: ((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+)
@@ -48,6 +51,21 @@ patterns:
           name: constant.character.escape.numeric.f2j
         - match: ([0123]?[0-7]{1,2})
           name: constant.character.escape.octal.f2j
+        - begin: "\\\\\\{"
+          beginCaptures:
+            '0': { name: punctuation.section.embedded.begin.f2j }
+          end: "\\}"
+          contentName: source.f2j
+          endCaptures:
+            '0': { name: punctuation.section.embedded.end.f2j }
+            '1': { name: source.f2j }
+          name: meta.embedded.line.f2j
+          # match: .
+          patterns:
+            - include: $self
+            - begin: "\\{"
+              end: "\\}"
+            # match: .
     - comment: Char
       name: string.quoted.single.f2j
       match: "(')(\\\\[btnfr\"'\\\\]|\\\\u[0-9A-Fa-f]{4}|\\\\U[0-9A-Fa-f]{8}|\\\\x[0-9A-Fa-f]{2}|[0123]?[0-7]{1,2}|.)(')"
@@ -71,36 +89,4 @@ patterns:
       end: \]
       patterns:
         - include: $self
-    # - comment: Parens
-    #   name: meta.parens.f2j
-    #   begin: \(
-    #   end: \)
-    #   patterns:
-    #     - include: $base
-    # - comment: Function Definition
-    #   name: meta.function.f2j
-    #   begin: \b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_']*)\b|([a-z_][a-zA-Z0-9_']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))
-    #   beginCaptures:
-    #     '1': { name: keyword.other.function-definition.f2j }
-    #     '3': { name: keyword.other.funtion-definition.f2j }
-    #     '4': { name: entity.name.function.f2j }
-    #     '5': { name: entity.name.function.f2j }
-    #   end: (?:(:)\s*([^=]+))?(?:(=)|(=)\s*(?=fun(?:ction)\b))
-    #   endCaptures:
-    #     '1': { name: punctuation.separator.function.type-constraint.f2j }
-    #     '2': { name: storage.type.f2j }
-    #     '3': { name: keyword.operator.f2j }
-    #     '4': { name: keyword.operator.f2j }
-    #   patterns:
-    #     - include: "#variables"
-    # - comment: Let definition
-    #   begin: \b(let|and)\b
-    #   end: \=
-    #   match:
-    # - comment: Type definition
-    #   begin: \b(type)
-    #   end: "="
-    #   patterns:
-    #     - match: ([a-zA-Z][a-zA-Z0-9_]*)\s*(\[[a-zA-Z][a-zA-Z0-9_]*(\s*,\s*[a-zA-Z][a-zA-Z0-9_]*)\])
-    #     - name: entity.name.type.f2j
 ...
