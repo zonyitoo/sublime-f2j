@@ -16,24 +16,30 @@ patterns:
       patterns:
         - match: .
         - include: $self
+        - begin: "{"
+          end: "}"
     - comment: Control keywords
       name: keyword.control.f2j
-      match: \b(let|rec|and|type|module|then|else|if|in|case|data|of|new|forall)\b
-    - comment: Constants
-      name: constant.language.f2j
-      match: \b(True|False)\b
+      match: \b(module|then|else|if|in|case|of|new|forall)\b
     - comment: Seperator
       name: keyword.other.f2j
-      match: ((=|\|)[^\+\-\*/~\^<>\|\&\$!#%\.\?@\\=]|->|:)
+      match: (\||/\\|->|:)
     - comment: Terminator
       name: punctuation.terminator.f2j
       match: (;)
-    - comment: Operators
-      name: keyword.operator.f2j
-      match: ((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+)
-    - comment: Infix operator
-      name: keyword.operator.function.infix.f2j
-      match: (`.+?`)
+
+    - comment: Lambda
+      begin: (\\)
+      beginCaptures:
+        '0': { name: keyword.operator.lambda.header.f2j }
+      end: (->)
+      endCaptures:
+        '0': { name: keyword.operator.lambda.body.f2j }
+      patterns:
+        - include: '#functionParameter'
+        - include: '#lineComment'
+        - include: '#blockComment'
+
     - comment: Strings
       name: string.quoted.double.f2j
       begin: '"'
@@ -43,6 +49,21 @@ patterns:
       endCaptures:
         '0': { name: punctuation.definition.string.end.c }
       patterns:
+        - begin: "\\\\{"
+          beginCaptures:
+            '0': { name: punctuation.section.embedded.begin.f2j }
+          end: "\\}"
+          endCaptures:
+            '0': { name: punctuation.section.embedded.end.f2j }
+            '1': { name: source.f2j }
+          contentName: source.f2j
+          name: meta.embedded.line.f2j
+          # match: .
+          patterns:
+            - include: $self
+            - begin: "\\{"
+              end: "\\}"
+            # match: .
         - match: \\[btnfr\"'\\]
           name: constant.character.escape.f2j
         - match: (\\u[0-9A-Fa-f]{4}|\\U[0-9A-Fa-f]{8})
@@ -51,21 +72,6 @@ patterns:
           name: constant.character.escape.numeric.f2j
         - match: ([0123]?[0-7]{1,2})
           name: constant.character.escape.octal.f2j
-        - begin: "\\\\\\{"
-          beginCaptures:
-            '0': { name: punctuation.section.embedded.begin.f2j }
-          end: "\\}"
-          contentName: source.f2j
-          endCaptures:
-            '0': { name: punctuation.section.embedded.end.f2j }
-            '1': { name: source.f2j }
-          name: meta.embedded.line.f2j
-          # match: .
-          patterns:
-            - include: $self
-            - begin: "\\{"
-              end: "\\}"
-            # match: .
     - comment: Char
       name: string.quoted.single.f2j
       match: "(')(\\\\[btnfr\"'\\\\]|\\\\u[0-9A-Fa-f]{4}|\\\\U[0-9A-Fa-f]{8}|\\\\x[0-9A-Fa-f]{2}|[0123]?[0-7]{1,2}|.)(')"
@@ -83,10 +89,212 @@ patterns:
     - comment: Numeric
       name: constant.numeric.f2j
       match: \b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b
+
+    - comment: Data definition
+      # begin: \b(data)\s+([A-Z][a-zA-Z0-9_]*)\s*
+      # beginCaptures:
+      #   '2': { name: storage.type.f2j }
+      # end: (=)
+      begin: \b(data)\b
+      beginCaptures:
+        '1': { name: keyword.other.f2j }
+        # '2': { name: entity.name.type.f2j }
+      end: (;)
+      endCaptures:
+        '0': { name: punctuation.terminator.f2j }
+      patterns:
+        - match: \b(rec)\b
+          captures:
+            '0': { name: keyword.other.f2j }
+        - match: \b(and)\b
+          captures:
+            '0': { name: keyword.other.f2j }
+        - match: (=|\|)
+          captures:
+            '0': { name: keyword.other.f2j }
+        - include: '#typeParameter'
+        - include: '#lineComment'
+        - include: '#blockComment'
+        - include: '#preludeClasses'
+
+    - comment: Type definition
+      begin: \b(type)\b
+      beginCaptures:
+        '1': { name: keyword.other.f2j }
+        # '2': { name: storage.type.f2j }
+      end: (=)
+      endCaptures:
+        '0': { name: keyword.other.f2j }
+      patterns:
+        - match: ([A-Z][a-zA-Z0-9_]*)
+        - include: '#typeParameter'
+        - include: '#lineComment'
+        - include: '#blockComment'
+        - include: '#preludeClasses'
+
+    - comment: Let
+      begin: \b(let)\b
+      beginCaptures:
+        '1': { name: keyword.control.f2j }
+      end: (=)
+      endCaptures:
+        '0': { name: keyword.other.f2j }
+      patterns:
+        - match: \b(rec)\b
+          captures:
+            '0': { name: keyword.control.f2j }
+        - match: ([a-z][a-zA-Z0-9_]*|\((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+\))
+          captures:
+            '0': { name: entity.name.function.f2j }
+        - match: (:)
+          captures:
+            '0': { name: keyword.other.f2j }
+        - include: '#functionParameter'
+        - include: '#typeParameterBinding'
+        - include: '#preludeClasses'
+        - include: '#typeName'
+        - include: '#lineComment'
+        - include: '#blockComment'
+    - comment: And
+      begin: \b(and)\b
+      beginCaptures:
+        '1': { name: keyword.control.f2j }
+      end: (=)
+      endCaptures:
+        '0': { name: keyword.other.f2j }
+      patterns:
+        - include: '#functionParameter'
+        - include: '#typeParameter'
+        - include: '#preludeClasses'
+        - include: '#typeName'
+        - include: '#lineComment'
+        - include: '#blockComment'
+        - match: ([a-z][a-zA-Z0-9_]*\b|\((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+\))
+          captures:
+            '0': { name: entity.name.function.f2j }
+        - match: ':'
+          captures:
+            '0': { name: keyword.other.f2j }
+
     - comment: Type parameter
       name: entity.name.type.f2j
+      # name: variable.other.generic-type.f2j
       begin: \[
+      beginCaptures:
+        # '0': { name: entity.name.type.f2j }
+        '0': { name: variable.other.generic-type }
       end: \]
+      endCaptures:
+        # '0': { name: entity.name.type.f2j }
+        '0': { name: variable.other.generic-type }
       patterns:
         - include: $self
+        - match: (,|\(|\))
+          captures:
+            '0': { name: variable.other.generic-type.separator.comma.f2j }
+
+    - comment: Operators
+      name: keyword.operator.f2j
+      match: ((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+)
+    - comment: Infix operator
+      name: keyword.operator.function.infix.f2j
+      begin: (`)
+      end: (`)
+      patterns:
+        - match: (->)
+          captures:
+            '0': { name: keyword.other.f2j }
+        - include: "#preludeClasses"
+        - include: "#identifier"
+        - include: "#typeName"
+    - comment: Constants
+      name: constant.language.f2j
+      match: \b(True\b|False\b|((\s|^)\(\)))
+repository:
+    typeName:
+        match: \b[A-Z][a-zA-Z0-9_]*\b
+        # name: storage.type.f2j
+
+    typeParameter:
+        # name: variable.other.generic-type
+        name: entity.name.type.f2j
+        begin: \[
+        beginCaptures:
+          '0': { name: variable.other.generic-type.begin.f2j }
+        end: \]
+        endCaptures:
+          '0': { name: variable.other.generic-type.end.f2j }
+        patterns:
+            # - include: "#typeName"
+            - match: (->)
+              captures:
+                '0': { name: keyword.other.f2j }
+            - match: (,)
+              captures:
+                '0': { name: variable.other.generic-type.separator.comma.f2j }
+            - include: '#typeParameter'
+            - include: '#preludeClasses'
+
+    typeParameterBinding:
+        # name: variable.other.generic-type
+        name: entity.name.type.f2j
+        begin: \[
+        beginCaptures:
+          '0': { name: variable.other.generic-type.begin.f2j }
+        end: \]
+        endCaptures:
+          '0': { name: variable.other.generic-type.end.f2j }
+        patterns:
+            # - include: "#typeName"
+            - match: (->)
+              captures:
+                '0': { name: keyword.other.f2j }
+            - match: (,)
+              captures:
+                '0': { name: variable.other.generic-type.separator.comma.f2j }
+            - include: '#typeParameterBinding'
+            - include: '#preludeClasses'
+
+    identifier:
+        match: \b[a-zA-Z][a-zA-Z0-9_]*\b
+
+    functionParameter:
+        begin: \(
+        end: \)
+        patterns:
+            - match: (:)
+              captures:
+                # '1': { name: variable.parameter.f2j }
+                '0': { name: keyword.other.f2j }
+            - include: '#typeParameter'
+            - include: '#preludeClasses'
+            - include: '#typeName'
+            - match: (->)
+              captures:
+                '0': { name: keyword.other.f2j }
+
+    functionDefName:
+        match: ([a-z][a-zA-Z0-9_]*\b|\((\+|-|\*|~|\^|<|>|\||&|\$|!|#|%|\.|/|\?|@|\\|=)+\))
+        captures:
+            '0': { name: entity.name.function.f2j }
+
+    preludeClasses:
+        match: \b(Int|String|Bool|Char|Float|Double|Unit)\b
+        name: storage.type.f2j
+
+    lineComment:
+        comment: Comments
+        name: comment.line.f2j
+        match: "(--).*$\\n?"
+
+    blockComment:
+        comment: Block comments
+        name: comment.block.f2j
+        begin: "{-"
+        end: "-}"
+        patterns:
+          - match: .
+          - include: $self
+          - begin: "{"
+            end: "}"
 ...
