@@ -46,12 +46,8 @@
 			</array>
 		</dict>
 		<dict>
-			<key>comment</key>
-			<string>Control keywords</string>
-			<key>match</key>
-			<string>\b(module|then|else|if|in|case|of|new|forall)\b</string>
-			<key>name</key>
-			<string>keyword.control.f2j</string>
+			<key>include</key>
+			<string>#controlKeywords</string>
 		</dict>
 		<dict>
 			<key>comment</key>
@@ -68,6 +64,14 @@
 			<string>(;)</string>
 			<key>name</key>
 			<string>punctuation.terminator.f2j</string>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Constants</string>
+			<key>match</key>
+			<string>(\b(True|False)\b|((\s|^)\(\)))</string>
+			<key>name</key>
+			<string>constant.language.f2j</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -482,7 +486,7 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>\b(and)\b</string>
+			<string>\b(and|def)\b</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -645,14 +649,6 @@
 				</dict>
 			</array>
 		</dict>
-		<dict>
-			<key>comment</key>
-			<string>Constants</string>
-			<key>match</key>
-			<string>\b(True\b|False\b|((\s|^)\(\)))</string>
-			<key>name</key>
-			<string>constant.language.f2j</string>
-		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -683,6 +679,15 @@
 					<string>}</string>
 				</dict>
 			</array>
+		</dict>
+		<key>controlKeywords</key>
+		<dict>
+			<key>comment</key>
+			<string>Control keywords</string>
+			<key>match</key>
+			<string>\b(module|then|else|if|in|case|of|new|forall)\b</string>
+			<key>name</key>
+			<string>keyword.control.f2j</string>
 		</dict>
 		<key>functionDefName</key>
 		<dict>

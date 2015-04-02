@@ -18,15 +18,16 @@ patterns:
         - include: $self
         - begin: "{"
           end: "}"
-    - comment: Control keywords
-      name: keyword.control.f2j
-      match: \b(module|then|else|if|in|case|of|new|forall)\b
+    - include: '#controlKeywords'
     - comment: Seperator
       name: keyword.other.f2j
       match: (\||/\\|->|:)
     - comment: Terminator
       name: punctuation.terminator.f2j
       match: (;)
+    - comment: Constants
+      name: constant.language.f2j
+      match: (\b(True|False)\b|((\s|^)\(\)))
 
     - comment: Lambda
       begin: (\\)
@@ -156,7 +157,7 @@ patterns:
         - include: '#lineComment'
         - include: '#blockComment'
     - comment: And
-      begin: \b(and)\b
+      begin: \b(and|def)\b
       beginCaptures:
         '1': { name: keyword.control.f2j }
       end: (=)
@@ -207,10 +208,12 @@ patterns:
         - include: "#preludeClasses"
         - include: "#identifier"
         - include: "#typeName"
-    - comment: Constants
-      name: constant.language.f2j
-      match: \b(True\b|False\b|((\s|^)\(\)))
 repository:
+    controlKeywords:
+        comment: Control keywords
+        name: keyword.control.f2j
+        match: \b(module|then|else|if|in|case|of|new|forall)\b
+
     typeName:
         match: \b[A-Z][a-zA-Z0-9_]*\b
         # name: storage.type.f2j
