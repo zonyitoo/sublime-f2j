@@ -71,8 +71,8 @@ patterns:
           name: constant.character.escape.unicode.f2j
         - match: \\x[0-9A-Fa-f]{2}
           name: constant.character.escape.numeric.f2j
-        - match: ([0123]?[0-7]{1,2})
-          name: constant.character.escape.octal.f2j
+        # - match: ([0123]?[0-7]{1,2})
+        #   name: constant.character.escape.octal.f2j
     - comment: Char
       name: string.quoted.single.f2j
       match: "(')(\\\\[btnfr\"'\\\\]|\\\\u[0-9A-Fa-f]{4}|\\\\U[0-9A-Fa-f]{8}|\\\\x[0-9A-Fa-f]{2}|[0123]?[0-7]{1,2}|.)(')"

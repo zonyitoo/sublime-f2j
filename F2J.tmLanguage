@@ -201,12 +201,6 @@
 					<key>name</key>
 					<string>constant.character.escape.numeric.f2j</string>
 				</dict>
-				<dict>
-					<key>match</key>
-					<string>([0123]?[0-7]{1,2})</string>
-					<key>name</key>
-					<string>constant.character.escape.octal.f2j</string>
-				</dict>
 			</array>
 		</dict>
 		<dict>
